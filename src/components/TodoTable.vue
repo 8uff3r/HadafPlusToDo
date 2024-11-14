@@ -129,7 +129,7 @@ const filterItems = (_value: string, query: string, item: any) => {
     <v-radio label="انجام نشده" :value="FilterTypes.ACTIVE"></v-radio>
     <v-radio label="همه آیتم‌ها" :value="FilterTypes.ALL"></v-radio>
   </v-radio-group>
-  <div class="w-50">
+  <v-col xs="12" sm="12" md="8" lg="6">
     <v-data-table
       :headers="headers"
       :items
@@ -144,8 +144,6 @@ const filterItems = (_value: string, query: string, item: any) => {
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>HadafPlus ToDo App</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
           <v-dialog v-model="dialogState" max-width="500px">
             <template v-slot:activator>
               <v-btn class="mb-2" color="primary" dark @click="addItem">
@@ -220,5 +218,5 @@ const filterItems = (_value: string, query: string, item: any) => {
       </template>
       <template v-slot:bottom> </template>
     </v-data-table>
-  </div>
+  </v-col>
 </template>

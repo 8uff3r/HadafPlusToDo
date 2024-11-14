@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-8 d-flex flex-column w-full align-center">
+  <div class="pa-4 d-flex flex-column w-full align-center">
     <TodoTable
       v-model="filteredItems"
       :callbacks="{
