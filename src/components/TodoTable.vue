@@ -36,7 +36,7 @@ const headers = ref([
   { title: "تاریخ ثبت", key: "createdDate" },
   { title: "", key: "actions", sortable: false },
 ]);
-const editedIndex = ref(-1);
+const editedID = ref(-1);
 const editedItem = ref<Item>({
   id: 0,
   title: "",
@@ -55,14 +55,14 @@ const addItem = () => {
   editedItem.value = klona(defaultItem);
   dialogType.value = DialogType.ADD;
 };
-const editItem = (index: number) => {
-  editedIndex.value = index;
-  editedItem.value = klona(items.value[index]);
+const editItem = (item: Item) => {
+  editedID.value = item.id;
+  editedItem.value = klona(item);
   dialogType.value = DialogType.EDIT;
 };
 const closeMainDialog = () => {
   dialogType.value = DialogType.CLOSED;
-  editedIndex.value = -1;
+  editedID.value = -1;
   editedItem.value = klona(defaultItem);
 };
 const save = async () => {
@@ -74,9 +74,11 @@ const save = async () => {
     result = await props.callbacks.edit(item);
   }
   if (result) {
-    closeMainDialog();
-    if (editedIndex.value !== -1) items.value[editedIndex.value] = result;
+    if (editedID.value !== -1)
+      items.value[items.value.findIndex((i) => i.id === editedID.value)] =
+        result;
     else items.value.unshift(result);
+    closeMainDialog();
   }
 };
 
@@ -131,6 +133,7 @@ const filterItems = (_value: string, query: string, item: any) => {
   </v-radio-group>
   <v-col xs="12" sm="12" md="8" lg="6">
     <v-data-table
+      :items-per-page="-1"
       :headers="headers"
       :items
       :custom-filter="filterItems"
@@ -207,8 +210,8 @@ const filterItems = (_value: string, query: string, item: any) => {
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.actions="{ index }">
-        <v-icon class="me-2" size="small" @click="editItem(index)">
+      <template v-slot:item.actions="{ index, item }">
+        <v-icon class="me-2" size="small" @click="editItem(item)">
           mdi-pencil
         </v-icon>
         <v-icon size="small" @click="deleteItem(index)"> mdi-delete </v-icon>
