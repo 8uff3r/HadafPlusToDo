@@ -15,6 +15,9 @@ export async function useFetchItems() {
 
 export async function useAddItemMutation(newItem: { title: string }) {
   const response = await fetch("/api/todos", {
+    headers: {
+    "Content-Type": "application/json",
+  },
     method: "POST",
     body: JSON.stringify(newItem),
   });
@@ -23,6 +26,9 @@ export async function useAddItemMutation(newItem: { title: string }) {
 
 export async function useEditItemMutation(newItem: Item) {
   const response = await fetch(`/api/todos/${newItem.id}`, {
+    headers: {
+    "Content-Type": "application/json",
+  },
     method: "PUT",
     body: JSON.stringify({ title: newItem.title }),
   });
